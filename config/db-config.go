@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"database/sql"
@@ -29,7 +29,7 @@ var psqlInfo string = fmt.Sprintf(
 	DbInfo.databaseName,
 )
 
-func openDB() *sql.DB {
+func OpenDB() *sql.DB {
 	db, err := sql.Open("postgres", psqlInfo)
 	err = db.Ping()
 	if err != nil {

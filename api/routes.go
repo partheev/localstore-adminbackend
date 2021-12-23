@@ -9,6 +9,7 @@ import (
 
 func (app *application) Routes() http.Handler {
 	router := mux.NewRouter()
+
 	productsManagement(app, router)
 	return router
 }
