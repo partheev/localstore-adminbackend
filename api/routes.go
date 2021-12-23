@@ -4,19 +4,19 @@ import (
 	"adminbackend/config"
 	"net/http"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/mux"
 )
 
 func (app *application) Routes() http.Handler {
-	router := httprouter.New()
+	router := mux.NewRouter()
 	productsManagement(app, router)
 	return router
 }
 
-func productsManagement(app *application, router *httprouter.Router) {
-	router.HandlerFunc(http.MethodPut, config.UPDATEPRODUCTROUTE, app.updateProductHandler)
-	router.HandlerFunc(http.MethodPost, config.ADDPRODUCTROUTE, app.addProductHandler)
-	router.HandlerFunc(http.MethodGet, config.GETPRODUCTSROUTE, app.getAllProductsHandler)
-	router.HandlerFunc(http.MethodDelete, config.DELETEONEPRODUCTROUTE, app.deleteOneProductHandler)
-	router.HandlerFunc(http.MethodDelete, config.DELETEPRODUCTSROUTE, app.deleteProductsHandler)
+func productsManagement(app *application, router *mux.Router) {
+	router.HandleFunc(config.UPDATEPRODUCTROUTE, app.updateProductHandler).Methods(http.MethodPut)
+	router.HandleFunc(config.ADDPRODUCTROUTE, app.addProductHandler).Methods(http.MethodPost)
+	router.HandleFunc(config.GETPRODUCTSROUTE, app.getAllProductsHandler).Methods(http.MethodGet)
+	router.HandleFunc(config.DELETEONEPRODUCTROUTE, app.deleteOneProductHandler).Methods(http.MethodDelete)
+	router.HandleFunc(config.DELETEPRODUCTSROUTE, app.deleteProductsHandler).Methods(http.MethodDelete)
 }

@@ -23,7 +23,7 @@ func main() {
 		Addr:    fmt.Sprintf(":%v", app.config.port),
 		Handler: app.Routes(),
 	}
-
+	
 	err := srv.ListenAndServe()
 	if err != nil {
 		log.Fatal("server not connected!")

@@ -30,6 +30,10 @@ func (app *application) getAllProductsHandler(w http.ResponseWriter, r *http.Req
 		return
 	}
 
+	if products == nil {
+		products = []models.Product{}
+	}
+
 	app.writeJson(w, products, http.StatusCreated)
 }
 
