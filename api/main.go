@@ -16,7 +16,8 @@ func main() {
 	app := application(config.Application{
 
 		Config: config.AppConfig{
-			Port: 4000,
+			Port:   4000,
+			JwtKey: string("sifofopasfasdfhopifpia"),
 		},
 		DB: models.NewDBModel(config.OpenDB()),
 	})

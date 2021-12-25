@@ -12,5 +12,6 @@ type Application struct {
 }
 
 type AppConfig struct {
-	Port int
+	Port   int
+	JwtKey string
 }

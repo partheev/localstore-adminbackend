@@ -19,12 +19,13 @@ func (app *application) addProductHandler(w http.ResponseWriter, r *http.Request
 		app.writeError(w, err)
 		return
 	}
-	app.writeJson(w, product, 201)
+	app.writeJson(w, product, http.StatusAccepted)
 }
 
 func (app *application) getAllProductsHandler(w http.ResponseWriter, r *http.Request) {
 
 	products, err := app.DB.DBModel.GetAllProducts()
+
 	if err != nil {
 		app.writeError(w, err)
 		return
@@ -34,7 +35,7 @@ func (app *application) getAllProductsHandler(w http.ResponseWriter, r *http.Req
 		products = []models.Product{}
 	}
 
-	app.writeJson(w, products, http.StatusCreated)
+	app.writeJson(w, products, http.StatusOK)
 }
 
 func (app *application) updateProductHandler(w http.ResponseWriter, r *http.Request) {

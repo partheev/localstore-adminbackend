@@ -29,3 +29,11 @@ type Product struct {
 	Delivery_radius float64  `json:"delivery_radius"`
 	Image_url       []string `json:"image_url"`
 }
+type AdminUser struct {
+	Id           int    `json:"id"`
+	First_name   string `json:"first_name"`
+	Last_name    string `json:"last_name"`
+	Email        string `json:"email"`
+	Phone_number string `json:"phone_number"`
+	Password     string `json:"password"`
+}

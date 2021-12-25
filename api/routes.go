@@ -10,6 +10,7 @@ import (
 func (app *application) Routes() http.Handler {
 	router := mux.NewRouter()
 
+	router.Use(app.authMiddleware)
 	productsManagement(app, router)
 	return router
 }

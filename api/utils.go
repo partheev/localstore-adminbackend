@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
+
+	"github.com/golang-jwt/jwt"
 )
 
 type res struct {
@@ -36,4 +39,33 @@ func (app *application) writeError(w http.ResponseWriter, err error) {
 
 	app.writeJson(w, theError, http.StatusBadRequest)
 
+}
+
+type Claims struct {
+	UserId int `json:"userId"`
+	jwt.StandardClaims
+}
+
+func (app *application) authMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		cookieToken, err := req.Cookie("session")
+		tokenString := cookieToken.Value
+		if err != nil {
+			app.writeError(w, err)
+		}
+		claims := Claims{}
+		token, err := jwt.ParseWithClaims(tokenString, &claims, func(a *jwt.Token) (interface{}, error) {
+			return []byte(app.Config.JwtKey), nil
+		})
+		if err != nil {
+			app.writeError(w, err)
+		}
+		if claim, ok := token.Claims.(*Claims); ok && token.Valid {
+			adminUser := app.DB.DBModel.GetAdminUser(claim.UserId)
+			ctx := context.WithValue(req.Context(), "adminuser", adminUser)
+			next.ServeHTTP(w, req.WithContext(ctx))
+		} else {
+			app.writeError(w, err)
+		}
+	})
 }
